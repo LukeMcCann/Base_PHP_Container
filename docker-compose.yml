@@ -1,0 +1,30 @@
+version: "3.8"
+services: 
+    webapp:
+        build: .
+        ports:
+            - "8000:80"
+        volumes: 
+            - ./src:/var/www
+        networks: 
+            - php
+        environment:
+            - APP_KEY=SomeRandomStringToAddSecurity123
+            - APP_ENV=development
+            - APP_DEBUG=true
+            - APACHE_RUN_USER=apache-www-volume
+            - APACHE_RUN_GROUP=apache-www-volume
+
+    db:
+        image: mysql
+        restart: always 
+        environment: 
+            MYSQL_ROOT_PASSWORD: root 
+        networks: 
+            - php
+        depends_on: 
+            - webapp
+
+
+networks:
+    php:
