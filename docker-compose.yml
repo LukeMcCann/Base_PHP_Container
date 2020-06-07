@@ -5,9 +5,9 @@ services:
         ports:
             - "8000:80"
         volumes: 
-            - ./src:/var/www
+            - ./src:/var/www/html
         networks: 
-            - php
+            - php-net
         environment:
             - APP_KEY=SomeRandomStringToAddSecurity123
             - APP_ENV=development
@@ -18,13 +18,17 @@ services:
     db:
         image: mysql
         restart: always 
+        ports: 
+            - "3306:3306"
+        volumes: 
+            - ./src/private/data:/var/lib/mysql
         environment: 
             MYSQL_ROOT_PASSWORD: root 
         networks: 
-            - php
+            - php-net
         depends_on: 
             - webapp
 
 
 networks:
-    php:
+    php-net:
